@@ -1,5 +1,5 @@
-baseurl = "https://example.com/"
-title = "Site Title"
+baseurl = "https://salmon-stone-0f03f0a03.azurestaticapps.net"
+title = "Site Title test"
 theme = "pulp"
 canonifyurls = true
 hasCJKLanguage = true
