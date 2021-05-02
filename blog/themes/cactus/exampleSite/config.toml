@@ -1,4 +1,4 @@
-baseurl = "http://localhost:1313/"
+baseURL = "https://example.com"
 languageCode = "en-us"
 title = "Cactus theme example"
 theme = "cactus"
