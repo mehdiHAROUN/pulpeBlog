@@ -7,16 +7,14 @@ draft: false
 1 install hugo, fellow the official doc : https://gohugo.io/getting-started/installing/
 
 if you are a windows user : 
-  a - downlad the last relase (hugo_XXX_Windows-32bit.zip
-) from https://github.com/gohugoio/hugo/releases 
+  a - downlad the last relase (hugo_XXX_Windows-32bit.zip) from https://github.com/gohugoio/hugo/eleases 
   b - unzip the folder for exemple (C:\hugo)
   c - add C:\hugo as variable 
   d - check if you did it well , open cmd and launch 'hugo version' to get the intalled version of hugo.
 
 2 create new project (website)
  a - from cmd : hugo new site blog
- b - change them using git clone https://github.com/olOwOlo/hugo-theme-even themes/even , this command will copy folder even in thems directory 
- git submodule add https://github.com/koirand/pulp.git themes/pulp
+ b - change them using git clone https://github.com/olOwOlo/hugo-theme-even themes/even , this command will copy folder even in thems directory git submodule add https://github.com/koirand/pulp.git themes/pulp
 
  c - update config.toml with the parameters that depends from each them  
  d- from cmd : hugo server to start the website, test it from http://localhost:1313/ 
@@ -27,5 +25,3 @@ push application to github :
  b - Commit the changes git add -A  git commit -m "initial commit"
  c - Create a blank GitHub repo (don't create a README) from https://github.com/new
  d - git remote add origin https://github.com/mehdyHD/blog
- 
-
