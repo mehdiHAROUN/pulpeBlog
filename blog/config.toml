@@ -43,7 +43,7 @@ weight = 5
 
 [params]
 
-  colortheme = "white" # dark, light, white, or classic
+  colortheme = "dark" # dark, light, white, or classic
   rss = true # generate rss feed. default value is false
   googleAnalyticsAsync = true # use asynchronous tracking. Synchronous tracking by default
 
@@ -57,7 +57,7 @@ weight = 5
   projectsUrl = "https://github.com/mehdyHD" # title link for projects list
 
   # https://gohugo.io/functions/format/#hugo-date-and-time-templating-reference
-  dateFormat = "2006-01-02" # default
+  dateFormat = "02-01-2006" # default
 
   # Post page settings
   show_updated = true # default
