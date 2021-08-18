@@ -13,7 +13,8 @@ Pour tester :
 - Lancer l'humdificateur de 22h à 09h 
 - Vérifier la températeure et l'humidité.
 
-j'ai fait une combinaison avec 
+j'ai fait une combinaison avec : 
+
 #### Alexa dot 3
 #### Raspberry pi 4 
 #### Prise Connectée WiFi (Zoozee)
