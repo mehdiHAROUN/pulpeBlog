@@ -117,3 +117,76 @@ https://www.youtube.com/playlist?list=PLI_rLWXMqpSl_TqX9bbisW-d7tDqcVvOJ
 Challenges OWASP
 https://cegid.dashboard.malice.fr/
 
+-----------------------------------------------------------------------
+
+
+Solve Algorithms | HackerRank
+https://www.hackerrank.com/domains/algorithms
+
+Coderbyte
+https://coderbyte.com/editor/Codeland%20Username%20Validation:Csharp
+
+Programming challenges, coding competitions, and hackathons | HackerEarth
+https://www.hackerearth.com/challenges/hiring/
+
+C# on Exercism
+https://exercism.org/tracks/csharp
+
+Sphere Online Judge (SPOJ) - Problems
+https://www.spoj.com/problems/classical/
+
+AlmostMagicSquare coding task - Learn to Code - Codility
+https://app.codility.com/programmers/task/almost_magic_square/
+
+About - Project Euler
+https://projecteuler.net/about
+
+Training on Last Survivor | Codewars
+https://www.codewars.com/kata/609eee71109f860006c377d1/train/csharp
+
+Problems - LeetCode
+https://leetcode.com/problemset/all/
+
+-----------------------------------------------------------------------
+
+Task List
+https://www.notion.so/8741e7e8dc3449fca04f0520c3ee66f6?v=64524a3c041f413fa19b74cfa4b575b4
+
+What is C#? | C# 101 [1 of 19] - YouTube
+https://www.youtube.com/watch?v=BM4CHBmAPh4
+
+https://elzero.org/
+
+https://satr.codes/list/howto
+
+A look at the upcoming improvements to LINQ in .NET 6 · Raygun Blog
+https://raygun.com/blog/linq-net-6-improvements/
+
+Introduction Wiki OCA | Cegid Engineering
+https://engineering.cegid.com/OCA/Guide-du-wiki.html
+
+Comment être un développeur plus efficace - Je suis un dev
+https://www.jesuisundev.com/comment-etre-un-developpeur-plus-efficace/
+
+
+
+--------------------------
+What is Domain-Driven Design (DDD)
+https://verraes.net/2021/09/what-is-domain-driven-design-ddd/?fbclid=IwAR2trFkm-ELUxt8N8xuj54ZU4jBMSXc_w-rl8ysiULRBjaiSgUquY4gy9bo
+
+Présentations rapides du Framework Scrum | Cegid Engineering
+https://engineering.cegid.com/OCA/Agilit%C3%A9-et-Scrum/Tutoriels-%C3%A0-votre-disposition/Agilit%C3%A9.html
+
+Home - Visual Studio Subscriptions Portal
+https://my.visualstudio.com/?wt.mc_id=VSS_SubNurENT_V1_EML_7678258_MYBanner
+
+Coderbyte
+https://coderbyte.com/editor/sqlsandbox:SQL%20Member%20Count
+
+Centre de ressources DevOps - Azure DevOps | Microsoft Docs
+https://docs.microsoft.com/fr-fr/devops/
+
+Link types reference - Azure Boards | Microsoft Docs
+https://docs.microsoft.com/en-us/azure/devops/boards/queries/link-type-reference?view=azure-devops#external-link-types
+
+
