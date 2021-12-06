@@ -6,7 +6,12 @@ draft: false
 
 ### Venise : 
 
-airport => home : Aeroporto Canova =6=> Fs De Gasperi | Treviso =RV=> Venice Mestre | https://www.lefrecce.it/ | https://mobilitadimarca.it/fr/
-
 get ticket here : 
 https://www.veneziaunica.it/fr/e-commerce/services
+
+
+### Florence : 
+il faut acheter à l'avance les buillets pour le dome.
+
+### Rome : 
+il faut réserver pour visiter le vaticans (with audio guide is better)
