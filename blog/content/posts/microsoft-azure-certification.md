@@ -6,9 +6,9 @@ draft: false
 
 mon parcours : 
 
-AZ-900 done <br>
-AZ-204 done <br>
-AZ-400 done <br>
+AZ-900 done.<br>
+AZ-204 done.<br>
+AZ-400 done.<br>
 AI-900 planified <br>
 DP-900 next <br>
 DP-203 next <br>
