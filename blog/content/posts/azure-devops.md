@@ -12,3 +12,5 @@ az vm start -g "$RessourcesGroup" -n $VmName --no-wait
 write-host "VM started "
 
 https://techgenix.com/azure-vm-storage-account-azcopy/
+
+azcopy sync "https://[sourceaccount].file.core.windows.net/[Share]?[SAS]" "https://[targetaccount].file.core.windows.net/[Share]?[SAS]" --recursive=true
