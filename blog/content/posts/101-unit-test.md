@@ -17,17 +17,24 @@ draft: false
 
 ## Test driven development TDD :
 une approche qui consiste à écrire les tests avant la logique métier.
-<img src="/images/101-unit-test/TDD.jpg" alt="TDD" hight="400" width="400"/>
+<img src="101-unit-test/TDD.jpg" alt="TDD" hight="400" width="400"/>
 
 ## le coût des tests :
 mike cohn's test pyramid
 
-<img src="/images/101-unit-test/testPyramid.png" alt="testPyramid" hight="400" width="400"/>
+<img src="101-unit-test/testPyramid.png" alt="testPyramid" hight="400" width="400"/>
 
 ## Les tests unitaires, pourquoi ? 
 -Tester plusieurs scénarios d'un même fonctionnement.
 -Factoriser le code.
 -Assurer la non regression.
+
+## Caractéristiques
+- Fast
+- Isolated
+- Repeatable
+- Self-Checking
+- Timely
 
 ## Pourquoi on aime pas les tests unitaires ?
 - ça demande une certaine rigueur.
@@ -53,13 +60,30 @@ simuler le comportement d'un objet.
 pouvoir définir un résultat attendu pour un objet (pas de contrainte BDD , API ...)
 
 ## Architecture N-Layer
-<img src="/images/101-unit-test/nlayer.jpg" alt="nlayer" hight="400" width="400"/>
-
+<img src="images/logo.png" />
 
 ## Test unitaire à la Cegid pour Acumatica
 - 80% couverture de code.
 - user interface piloter par le code | architecture.
--
+- MsTest | Moq | Fixiture
+- exemple : BatchReleaseExtTests , APReleaseProcessYearClosingTests , POOrderEntryExtTests 
+
+
+## Bonne pratiques 
+(https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices)
+- Naming your tests
+- Arranging your tests
+- Write minimally passing tests
+- Avoid magic strings
+- Avoid logic in tests
+- Avoid multiple acts
+
+
+
+
+
+
+
 
 
 
