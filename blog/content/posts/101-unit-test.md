@@ -17,14 +17,12 @@ draft: false
 
 ## Test driven development TDD :
 une approche qui consiste à écrire les tests avant la logique métier.
-<img src="101-unit-test/TDD.jpg" alt="TDD" hight="400" width="400"/>
+<img src="images/101-unit-test/TDD.jpg" alt="TDD" hight="400" width="400"/>
 
 ## le coût des tests :
 mike cohn's test pyramid
 
-<img src="101-unit-test/testPyramid.png" alt="testPyramid" hight="400" width="400"/>
-
-![](101-unit-test/testPyramid.png)
+<img src="images/101-unit-test/testPyramid.png" alt="testPyramid" hight="400" width="400"/>
 
 ## Les tests unitaires, pourquoi ? 
 -Tester plusieurs scénarios d'un même fonctionnement.
@@ -55,7 +53,7 @@ simuler le comportement d'un objet.
 pouvoir définir un résultat attendu pour un objet (pas de contrainte BDD , API ...)
 
 ## Architecture N-Layer
-<img src="nlayer.jpg" alt="nlayer" hight="400" width="400"/>
+<img src="images/101-unit-test/nlayer.jpg" alt="nlayer" hight="400" width="400"/>
 
 
 ## Test unitaire à la Cegid pour Acumatica
