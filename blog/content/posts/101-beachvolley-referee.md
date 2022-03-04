@@ -27,4 +27,21 @@ draft: true
 - on prévient si c'est le mauvais serveur 
 - si erreur sur le serveur , le point n'est pas annulé 
 
+
+- le contre : proche du filet + main dépasse la hauteur du filet 
+- le contre compte comme une touche 
+- attaque : contacte doit se faire dans son camp 
+- attaque : effective si elle est touché par l'adversaire / dépasse entièrement
+
+- l'adversaire ne doit pas s'opposer à l'action sinon => interférence 
+- touche assistée est interdite = geste du lancé du  ballon au service (bras tendu)
+
+- temps de contact allongé => faute tenue 
+- contact consécutifs => décalage significatif  
+- contact consécutifs autorisés = 1ere touche non jouée avec les doigts + contre
+- ballon frappé en puissance => proche de filet + sans déplacement + sans changement de technique => on peut faire une touche avec les doigts 
+ 
+
+
+
 1h32
