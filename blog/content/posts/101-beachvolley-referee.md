@@ -4,6 +4,23 @@ date: 2022-03-02T13:55:47+01:00
 draft: false
 ---
 
+## à préparer : 
+
+- Un sifflet
+- Une montre
+- Un stylo bleu ou noire
+- Une tenue adaptée
+- Lunettes de soleil/casquette conseillées
+- Gourde d’eau
+- mano
+- pompe
+- pièce de toss
+- cartons
+
+règlement officiel : http://extranet.ffvb.org/data/Files/documents/arbitrage/FIVB_Regles_officielles_Beach_Volleyball_2021-2024-v20220418.pdf
+
+
+
 ## à identifier 
 
 - comité d'organisation
@@ -102,8 +119,8 @@ draft: false
 - au beachvolley si je donne un rouge je reviens pas en jaune contrairement en salle  
   
 ### interruption   
-- temps mort : durée 30" |  un seul par set 
-- temps mort technique : seulement 1er et 2eme set seulement | somme de points = 21
+- temps mort : durée 45" |  un seul par set 
+- temps mort technique : seulement 1er et 2eme set seulement | somme de points = 21 | durée 45"
 
 ### gestion de temps 
 - règle de 12" => de fin échange au service 
