@@ -42,6 +42,7 @@ weight = 5
     startLevel = 2
 
 [params]
+  css = ["css/custom.css"]
 
   colortheme = "dark" # dark, light, white, or classic
   rss = true # generate rss feed. default value is false
