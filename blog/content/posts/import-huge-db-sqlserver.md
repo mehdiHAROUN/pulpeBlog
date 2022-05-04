@@ -4,8 +4,8 @@ date: 2022-04-08T17:10:26+02:00
 draft: false
 ---
 
-dacpac : schema only 
-bacpac : data + schema 
+- dacpac : schema only 
+- bacpac : data + schema 
 
 ## méthode 1 utilisant SqlPackage.exe
 
@@ -13,7 +13,8 @@ bacpac : data + schema
 - créer une base de données vide avec une taille initiale qui correspond à la taille de la base de données à importer.
 - lancer ce scrpit dans un terminal powershell en utilisant 
 
-'[string]$myBacpac = 'C:\Users\haroun\Downloads\file.bacpac'
+```powershell
+[string]$myBacpac = 'C:\Users\haroun\Downloads\file.bacpac'
 [string]$connectionString = 'Data Source=CGDLPT\SQL2019;Initial Catalog=testExp; Integrated Security=true;'
 [string]$action = 'Import'
 
@@ -30,7 +31,8 @@ if ($LatestSqlPackage) {
     & $LatestSqlPackage $commandParameters
 } else {
       Write-Error "Could not find SqlPackage.exe"
-}'
+}
+``` 
 
 ## méthode 2 en supprimant les tables lourdes
 

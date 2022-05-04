@@ -25,12 +25,13 @@ http://manpages2.chall.malicecyber.com/
 https://retineyeniveau12.chall.malicecyber.com/
 
 
-		String[] cmdArray = new String[4];
+``` 
+String[] cmdArray = new String[4];
 cmdArray[0] = "sh";
 cmdArray[1] = "-c";	
 cmdArray[2] = "man ";
 cmdArray[3] = manpage;
-
+```
 
 Process process = Runtime.getRuntime().exec( cmdArray );
 
