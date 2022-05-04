@@ -49,7 +49,7 @@ weight = 5
   googleAnalyticsAsync = true # use asynchronous tracking. Synchronous tracking by default
 
   # Home page settings
-  description = "Tech enthusiast blogging about .NET Coding, Azure Cloud and Agile"
+  description = "Tech enthusiast blogging about .NET Coding, Azure Cloud and Agile ........................UNDER CONSTRUCTION......................."
   mainSection = "posts" # your main section
   showAllPostsOnHomePage = true # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
