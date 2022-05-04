@@ -6,8 +6,6 @@ draft: false
 
 
 
-![image alt text](/images/101-unit-test/TDD.JPG)
-<img src="/images/101-unit-test/TDD.JPG" alt="TDD" hight="400" width="400"/>
 
 
 # Pourquoi tester ? tester c'est douter !
@@ -24,12 +22,14 @@ https://github.com/mehdyHD/101_unit_test.git
 
 ## Test driven development TDD :
 une approche qui consiste à écrire les tests avant la logique métier.
-<img src="/images/101-unit-test/TDD.jpg" alt="TDD" hight="400" width="400"/>
+
+![TDD image](/images/101-unit-test/testPyramid.png)
+
 
 ## le coût des tests :
 mike cohn's test pyramid
 
-<img src="images/TDD.JPG" alt="testPyramid" hight="400" width="400"/>
+![TDD image](/images/101-unit-test/TDD.JPG)
 
 
 ## Les tests unitaires, pourquoi ? 
@@ -68,7 +68,8 @@ simuler le comportement d'un objet.
 pouvoir définir un résultat attendu pour un objet (pas de contrainte BDD , API ...)
 
 ## Architecture N-Layer
-<img src="images/101-unit-test/Nlayer.jpg" />
+![Nlayer image](/images/101-unit-test/Nlayer.jpg)
+
 
 ## Test unitaire à la Cegid pour Acumatica
 - 80% couverture de code.
