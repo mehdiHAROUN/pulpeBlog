@@ -1,6 +1,6 @@
 baseurl = "https://www.anotherblog.org/"
 languageCode = "en-us"
-title = "Just another SDE blog"
+title = "just another SWE (human) blog"
 theme = "cactus"
 copyright = "Mehdi HAROUN" # cactus will use title if copyright is not set
 disqusShortname = "mehdey" # Used when comments is enabled. Cactus will use site title if not set
@@ -45,7 +45,7 @@ weight = 5
   css = ["css/custom.css"]
 
   colortheme = "dark" # dark, light, white, or classic
-  rss = true # generate rss feed. default value is false
+  rss = false # generate rss feed. default value is false
   googleAnalyticsAsync = true # use asynchronous tracking. Synchronous tracking by default
 
   # Home page settings
