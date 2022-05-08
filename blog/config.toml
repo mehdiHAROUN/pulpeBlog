@@ -1,6 +1,6 @@
 baseurl = "https://www.anotherblog.org/"
 languageCode = "en-us"
-title = "just another SWE (human) blog"
+title = "just another solution dev blog"
 theme = "cactus"
 copyright = "Mehdi HAROUN" # cactus will use title if copyright is not set
 disqusShortname = "mehdey" # Used when comments is enabled. Cactus will use site title if not set

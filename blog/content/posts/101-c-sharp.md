@@ -7,3 +7,5 @@ draft: false
 Fundamentals
 
 .NET = CLR + FCL 
+
+Reference Type vs Value Type 
