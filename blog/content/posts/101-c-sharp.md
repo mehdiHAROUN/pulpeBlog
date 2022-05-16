@@ -27,7 +27,8 @@ Fundamentals
 }
 guarantee that the object will be disposed. (try finally statement) (file , socket ...)
 
-- 
+- readonly : can be assigned only in initializer or constructor => can be assigned dynamically via file , bdd ... | runtime constant | optionally static
+- constant : can be assigned only in initializer => compile time instance | always static 
 
 
 
