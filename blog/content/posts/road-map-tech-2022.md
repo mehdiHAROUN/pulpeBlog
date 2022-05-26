@@ -6,6 +6,10 @@ draft: true
 
 # Road Map Tech 2022
 
+
+## to do 
+Tailwind CSS
+typescript
 ## Done 
 
 ## In progress
