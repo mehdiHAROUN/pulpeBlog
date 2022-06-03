@@ -8,7 +8,15 @@ draft: false
 
 ```
 
-## Powershell
+## Command basic 
+
+- Verb-Noun
 
 
+- get-command 
+- get-help
+- get-member
 
+- get-history
+
+- object & pilining
