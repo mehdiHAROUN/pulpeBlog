@@ -1,4 +1,4 @@
-baseurl = "https://www.anotherblog.org/"
+baseurl = "http://anotherblog.online/"
 languageCode = "en-us"
 title = "just another solution dev blog"
 theme = "cactus"
