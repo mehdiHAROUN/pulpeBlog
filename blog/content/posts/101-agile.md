@@ -10,10 +10,35 @@ Agile why ?
 - reduce time to market.
 - organisation entre équipe 
 
-![methology](/images/agile/agilevs.PNG)
+![methology](/images/101-agile/agilevs.PNG)
 
-![manifeste](/images/agile/principe.PNG)
+![manifeste](/images/101-agile/principe.PNG)
 
 Scrum : méthode spécifique vs Kanban
 https://scrumguides.org/
+
+
+Structure équipe scrum : 
+- Product manager
+- Stakeholder (Client / sponsor / PMM)
+- Scrum master 
+- Product owner
+- Developer / Ops
+- Qa
+
+- Feature
+- User story (INVEST): 
+  - En tant que ... je veux ... pour ...
+  - Poids (chiffrage en point)
+  - Les critères d'acceptance
+  
+- Vélocité 
+
+
+- Sprint 
+
+- Cérémonie
+
+
+
 
