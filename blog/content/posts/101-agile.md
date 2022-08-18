@@ -14,6 +14,8 @@ Agile why ?
 
 ![manifeste](/images/101-agile/principe.PNG)
 
+![manifeste](/images/101-agile/mvp.PNG)
+
 Scrum : méthode spécifique vs Kanban
 https://scrumguides.org/
 
@@ -32,15 +34,21 @@ Structure équipe scrum :
   - Poids (chiffrage en point)
   - Les critères d'acceptance
   
+- Sprint 
+
 - Vélocité 
 
-- Sprint 
+- Roadmap
 
 - Backlog
 
 - Cérémonie : 
-  - daily
-  - 
+  - Atelier « Ready / « Done »
+  - Sprint planning
+  - Daily
+  - Sizing
+  - Démo
+  - rétrospective
 
 
 
