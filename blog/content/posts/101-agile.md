@@ -10,7 +10,7 @@ Agile why ?
 - reduce time to market.
 - organisation entre équipe 
 
-![methology](/images/101-agile/agilevs.PNG)
+![methodology](/images/101-agile/agilevs.PNG)
 
 ![manifeste](/images/101-agile/principe.PNG)
 
@@ -34,10 +34,13 @@ Structure équipe scrum :
   
 - Vélocité 
 
-
 - Sprint 
 
-- Cérémonie
+- Backlog
+
+- Cérémonie : 
+  - daily
+  - 
 
 
 
