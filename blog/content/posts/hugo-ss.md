@@ -8,7 +8,7 @@ draft: false
 #### 1 - install hugo :
  fellow the official doc : https://gohugo.io/getting-started/installing/
 if you are a windows user : 
-  * downlad the last relase (hugo_XXX_Windows-32bit.zip) from <https://github.com/gohugoio/hugo/eleases>
+  * downlad the last relase (hugo_XXX_Windows-32bit.zip) from <https://github.com/gohugoio/hugo/releases>
   * unzip the folder for exemple (C:\hugo).
   * add C:\hugo as variable.
   * check if you did it well , open cmd and launch 'hugo version' to get the intalled version of hugo.
