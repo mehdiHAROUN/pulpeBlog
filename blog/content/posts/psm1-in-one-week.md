@@ -1,7 +1,7 @@
 ---
 title: "Psm1 in One Week"
 date: 2022-11-15T11:32:06+01:00
-draft: true
+draft: false
 ---
 
 ## Ressource
