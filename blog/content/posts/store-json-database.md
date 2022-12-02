@@ -22,4 +22,17 @@ Les inconvénients :
 
 une solution peut réconcilier les deux méthodes, c'est d'avoir un type Json dans la bdd (ce qui est le cas sur quelques sgbd depuis 2015 deja).
 
-Entity Framework 7 apporte la gestion complète de la colonne Json.
+## Intro
+
+Entity Framework 7 apporte la gestion complète de la colonne Json:
+
+.NET 7 est là ! qui embarque une nouvelle version de l'Entity Framework 7 l'ORM (object relational mapping) le plus populaire des développeur .net.
+Parmi les nouvelles fonctionnalités qu'on va explorer dans cet article est la manipulation des colonnes de type JSON.
+De nos jours la plupart des sgbd supporte des colonnes json ce qui donne cette dimension document à une bdd relationnelle.
+EF7 implémente le fournisseur SQl server qui permet de faire des requêtes Linq nécessaire pour l'exploration et la modification des documents JSON.
+
+## Mappage à des colonnes JSON
+
+## Requêtes dans des colonnes JSON
+
+## Mise à jour des colonnes JSON
