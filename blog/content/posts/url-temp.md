@@ -1,7 +1,7 @@
 ---
 title: "Url Temp"
 date: 2021-08-19T01:11:05+02:00
-draft: true
+draft: false
 ---
 
 hugo theme at DuckDuckGo
@@ -43,8 +43,8 @@ https://stackoverflow.com/questions/59508121/no-url-found-for-submodule-path-in-
 No url found for submodule path - DeployHQ
 https://www.deployhq.com/support/common-repository-errors/no-url-found-for-submodule
 
+---
 
---------------------------
 6 Tips for Improving Product Backlog Refinement
 https://resources.scrumalliance.org/Article/6-tips-improving-product-backlog-refinement
 
@@ -117,8 +117,7 @@ https://www.youtube.com/playlist?list=PLI_rLWXMqpSl_TqX9bbisW-d7tDqcVvOJ
 Challenges OWASP
 https://cegid.dashboard.malice.fr/
 
------------------------------------------------------------------------
-
+---
 
 Solve Algorithms | HackerRank
 https://www.hackerrank.com/domains/algorithms
@@ -147,7 +146,7 @@ https://www.codewars.com/kata/609eee71109f860006c377d1/train/csharp
 Problems - LeetCode
 https://leetcode.com/problemset/all/
 
------------------------------------------------------------------------
+---
 
 Task List
 https://www.notion.so/8741e7e8dc3449fca04f0520c3ee66f6?v=64524a3c041f413fa19b74cfa4b575b4
@@ -168,9 +167,8 @@ https://engineering.cegid.com/OCA/Guide-du-wiki.html
 Comment être un développeur plus efficace - Je suis un dev
 https://www.jesuisundev.com/comment-etre-un-developpeur-plus-efficace/
 
+---
 
-
---------------------------
 What is Domain-Driven Design (DDD)
 https://verraes.net/2021/09/what-is-domain-driven-design-ddd/?fbclid=IwAR2trFkm-ELUxt8N8xuj54ZU4jBMSXc_w-rl8ysiULRBjaiSgUquY4gy9bo
 
@@ -188,5 +186,3 @@ https://docs.microsoft.com/fr-fr/devops/
 
 Link types reference - Azure Boards | Microsoft Docs
 https://docs.microsoft.com/en-us/azure/devops/boards/queries/link-type-reference?view=azure-devops#external-link-types
-
-

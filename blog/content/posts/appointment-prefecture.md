@@ -1,17 +1,17 @@
 ---
 title: "Appointment Prefecture"
 date: 2021-08-23T18:11:16+02:00
-draft: true
+draft: false
 ---
 
-use node.js to check every interval the appointment avaibality 
+use node.js to check every interval the appointment avaibality
 send an email if true
 
-install node.js 
+install node.js
 create new project and copy the following code :
 
-import package 
+import package
 set gmail account : https://devanswers.co/allow-less-secure-apps-access-gmail-account/
 try and enjoy
 
-use docker : 
+use docker :

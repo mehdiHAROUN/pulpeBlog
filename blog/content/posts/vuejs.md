@@ -1,7 +1,7 @@
 ---
 title: "Vuejs"
 date: 2022-11-10T18:36:24+01:00
-draft: true
+draft: false
 ---
 
 nvm install

@@ -1,10 +1,11 @@
 ---
 title: "Portal Unit Test"
 date: 2022-02-21T13:52:20+01:00
-draft: true
+draft: false
 ---
 
 # Table des matières
+
 [1 Organisation des tests unitaires (back-end)](#§1-organisation-des-tests-unitaires)
 
 [2 Classes de tests](#§2-classes-de-tests)
@@ -26,15 +27,17 @@ draft: true
 Les Tests Unitaires (TU) côté back sont organisés par classe de tests, chaque classe regroupant les TU pour un (et un seul) service métier `ApplicationCore` à tester. La convention de nommage d'une classe de tests est donc simplement `<NomService>Tests`.
 Par exemple, `ProductServiceTests` regroupe tous les TU pour le service métier `ProductService`, et uniquement ceux-là.
 
-Ces classes de tests sont systématiquement localisées dans le projet `UnitTests` de chaque solution récente de Portal. Au sein de ce projet, ces classes sont organisées selon une hiérarchie de dossiers similaire à celle des services métiers testés. 
+Ces classes de tests sont systématiquement localisées dans le projet `UnitTests` de chaque solution récente de Portal. Au sein de ce projet, ces classes sont organisées selon une hiérarchie de dossiers similaire à celle des services métiers testés.
 Par exemple, le dossier `UnitTests/Portal_CPA.ApplicationCore/ApplicationServices` regroupe les TU liés à tous les services situés dans `ApplicationCore/ApplicationServices`.
 
 [^retour en haut](#table-des-matières)
 
 # §2 Classes de tests
+
 La classe de tests est une classe C# qui regroupe l'ensemble des tests nécessaires à la couverture d'un seul et même service métier, appelé **System Under Test** (SUT). Une bonne pratique est de regrouper les tests unitaires concernant une même méthode du SUT à l'aide de régions.
 
 Par exemple :
+
 ```csharp
 #region GetClients() Tests
 
@@ -46,14 +49,15 @@ public GetClientsThrowsWhen()...
 
 ## §2.1 Préparation du contexte (Test Setup)
 
-Si une partie du contexte (jeux de données ou services) est commune à tous les TU d'une classe de tests, il est possible de l'instancier une seule et même fois au niveau du **constructeur** de la classe de tests. 
+Si une partie du contexte (jeux de données ou services) est commune à tous les TU d'une classe de tests, il est possible de l'instancier une seule et même fois au niveau du **constructeur** de la classe de tests.
 À noter que le constructeur sera appelé à l'exécution de _chacun_ des tests. En effet, afin d'éviter des problèmes de thread-safety (accès concurrents, deadlocks), les tests sont toujours censés pouvoir fonctionner en vase clos et être exécutés en parallèle.
 
 Par exemple, voici comment injecter un mock de `ILoggerApp` pour chaque TU de `ServiceTests` :
+
 ```csharp
-public class ServiceTests 
+public class ServiceTests
 {
-    public ServiceTests() 
+    public ServiceTests()
     {
         // Setup: inject instance of mock logger for DI
         _fixture.Inject(new Mock<ILoggerApp<ServiceTests>>().Object);
@@ -63,21 +67,23 @@ public class ServiceTests
 
 Pour éviter d'avoir à dupliquer le code de mise en place du contexte dans chaque classe de tests, un comportement par défaut a été défini au sein de la classe abstraite `SystemUnderTestBase` (ou `ServiceUnderTestBase` dans une ancienne version à refactoriser), qui prend en paramètres de généricité l'interface et le type du SUT.
 
-Par exemple, pour un service métier de type Service : 
+Par exemple, pour un service métier de type Service :
+
 ```csharp
 public class ServiceTests : SystemUnderTestBase<IService, Service>
-{ 
-    ... 
+{
+    ...
 }
 
 // ou anciennement : (attention à l'ordre des types de généricité qui a été inversé)
 public class ServiceTests : ServiceUnderTestBase<Service, IService>
-{ 
-    ... 
+{
+    ...
 }
 ```
 
 Ce constructeur crée une fixture qui :
+
 - fournit une injection de dépendance pour le service à tester,
 - évite la création récursive d'[objets composites](https://fr.wikipedia.org/wiki/Objet_composite) indéfiniment (profondeur de récursivité limitée à 1),
 - génère des mocks automatiquement lorsqu'aucun mock spécifique n'a été prévu dans le test ([AutoMock](#§5.4-injection-de-dépendances-et-automocking)).
@@ -88,17 +94,18 @@ De même, il est possible de libérer les ressources susceptibles de générer d
 
 [^retour en haut](#table-des-matières)
 
-# §3 Tests unitaires 
+# §3 Tests unitaires
 
-Un test unitaire se présente sous la forme d'une méthode de la classe de tests. Cette méthode de test met en place le cas à tester, et évalue son résultat. Pour ce faire, au sein d'une même méthode, il est nécessaire : 
-- de générer ou récupérer les données de test, 
-- d'instancier le SUT et ses dépendances, 
-- d'appeler la méthode à tester et éventuellement récupérer son résultat, 
+Un test unitaire se présente sous la forme d'une méthode de la classe de tests. Cette méthode de test met en place le cas à tester, et évalue son résultat. Pour ce faire, au sein d'une même méthode, il est nécessaire :
+
+- de générer ou récupérer les données de test,
+- d'instancier le SUT et ses dépendances,
+- d'appeler la méthode à tester et éventuellement récupérer son résultat,
 - et de vérifier que l'appel à la méthode ou la valeur de retour est conforme à ce qui était attendu.
 
 Il est à noter que dans un TU on teste toujours **une** méthode **publique** du SUT. Les méthodes privées seront couvertes indirectement par les TU des méthodes publiques y faisant appel. Si des méthodes privées ne sont pas totalement couvertes alors que toutes les méthodes publiques ont été testées à 100%, alors on a affaire à du code mort.
 
-## §3.1 Nommage 
+## §3.1 Nommage
 
 Une méthode de test bien nommée doit permettre de retrouver en un instant le cas testé. Pour ce faire, la convention de nommage suivante peut être utilisée : **`<NomMéthode><ActionAttendue><CasTesté>`**.
 
@@ -120,7 +127,8 @@ Afin que les méthodes de tests puissent être découvertes par le lanceur de te
 Il faut utiliser l'attribut `[Fact]` lorsque le cas à tester ne nécessite pas plusieurs jeux de données. Dans le cas contraire, l'attribut `[Theory]` permet de renseigner plusieurs jeux de données qui devront impérativement être passés en paramètre de la méthode de test à l'aide d'attributs complémentaires (`[InlineData]`, `[MemberData]` ou `[ClassData]`).
 
 Par exemple :
-``` csharp
+
+```csharp
 // Test simple
 [Fact]
 public void GetProductAsyncReturnsRequestedProductWhenIdIsValid() { ... }
@@ -137,11 +145,13 @@ Plus d'informations sur les [tests paramétrés au §4.2](#§4.2-tests-paramétr
 ## §3.3 Arrange, Act, Assert (AAA)
 
 Un TU se déroule toujours en trois étapes :
+
 1. L'étape **Arrange** où on met en place le cas de test : génération ou récupération du jeu de données, instanciation du SUT et des dépendances simulées (mocks d'API, DA...) nécessaires pour la méthode testée.
 2. L'étape **Act** où on appelle la méthode testée (il ne doit donc y avoir qu'une seule instruction dans cette étape normalement) et où on récupère la valeur de retour éventuelle.
 3. L'étape **Assert** où on vérifie que la valeur de retour ou les données du test correspondent à ce qui était attendu. Il est également possible de vérifier qu'une méthode d'une des dépendances mockées a bien été appelée. C'est notamment utile quand on teste des méthodes qui ne retournent aucune valeur (en général les Create, Update, Delete).
 
 Par exemple :
+
 ```csharp
 [Theory]
 [InlineData("9854123", "99999999", ServiceContext.OnlyQuadra, "3", 0)]
@@ -150,17 +160,17 @@ public async Task CreateTiersSmbShouldReturnIdWhenQuadraContext(string sic, stri
     // Arrange
     // a) input data
     var tiers = new TiersProxy { TiersId = tiersId };
-    
+
     // b) dependencies
     _fixture.Inject(CommonDataApiClientMocker.CreateMockWith(sic, oldSic, sousClientId, tiers));
     _fixture.Inject(ClaimsContextMocker.CreateMockWith(oldSic, sousClientId, string.Empty));
-    
+
     // c) sut
     var sut = _fixture.Create<ICommonDataService>();
-    
+
     // Act
     var tiersIdReturned = await sut.CreateTiersSmb(new Entreprise(), sic, string.Empty, string.Empty, contexte);
-    
+
     // Assert
     tiersIdReturned.ShouldBe(tiers.TiersId);
 }
@@ -170,14 +180,15 @@ public async Task CreateTiersSmbShouldReturnIdWhenQuadraContext(string sic, stri
 
 Les assertions permettent de vérifier si le résultat correspond bien à ce qui était attendu dans le test. Si une assertion est fausse, une exception est levée et le test passe au rouge, avec un message d'erreur permettant d'analyser le problème. De même, si une exception est levée à n'importe quel autre endroit du test (instanciation des services, appel de la méthode testée), il passera également au rouge.
 
-Au contraire, si toutes les assertions sont OK, le test passe au vert. Évidemment si aucune assertion n'est faite dans le test, le test passera également au vert, donnant le sentiment que tout s'est bien passé... À éviter donc : SonarCloud émettra un warning. 
+Au contraire, si toutes les assertions sont OK, le test passe au vert. Évidemment si aucune assertion n'est faite dans le test, le test passera également au vert, donnant le sentiment que tout s'est bien passé... À éviter donc : SonarCloud émettra un warning.
 
 Dans Portal, on utilise la bibliothèque `Shouldly` car elle permet d'écrire les assertions de manière plus lisible que les `Assert()` de .NET.
 
-Exemples d'assertions : 
+Exemples d'assertions :
+
 ```csharp
 boolResult.ShouldBeTrue();                 // test de la valeur d'un booléen
-productResult.NAME.ShouldBe(expectedName); // test de la valeur d'une propriété 
+productResult.NAME.ShouldBe(expectedName); // test de la valeur d'une propriété
 intResult.ShouldBeInRange(1, 100);         // test d'intervalle d'un int
 
 productResult.EMPTYFIELD.ShouldBeNull();   // test de nullité
@@ -223,7 +234,7 @@ On peut également faire appel plusieurs fois à la même fixture pour spécifie
 
 ```csharp
 _fixture.Build<PaymentMethod>()
-        .With(pm => pm.CardHolderInfo, 
+        .With(pm => pm.CardHolderInfo,
               _fixture.Build<CardHolderInfo>()
                       .With(ch => ch.Email, "user@bank.com")
                       .Create())
@@ -231,6 +242,7 @@ _fixture.Build<PaymentMethod>()
 ```
 
 Enfin, il est possible de générer une collection d'objets de type `IEnumerable` en appelant `CreateMany()`. Par exemple :
+
 ```csharp
 var inputProducts = _fixture.CreateMany<ProduitInterlocuteur>(); // génère plusieurs éléments (nombre non précisé)
 
@@ -238,18 +250,22 @@ var inputProducts = _fixture.CreateMany<ProduitInterlocuteur>(5); // génère 5 
 ```
 
 À savoir que si un objet à générer contient une propriété de type liste, le nombre d'éléments de cette liste n'est pas défini (cas du premier `CreateMany()` ci-dessus). Il suffit cependant de spécifier leur nombre en imbriquant un second appel à `CreateMany()` (pour la propriété Contacts dans l'exemple suivant) :
+
 ```csharp
-var inputCartes = 
+var inputCartes =
     _fixture.Build<Carte>()
-            .With(c => c.Contacts, 
+            .With(c => c.Contacts,
                   fixture.CreateMany<Contact>(5).ToList()) // ToList() car le champ Contacts attend
                                                            // une liste, et non un IEnumerable
             .CreateMany()
 ```
-Pour les objets complexes comportant de nombreuses propriétés de navigation, qui elles-mêmes mènent à des objets comportant des propriétés de navigation (entités Entity Framework notamment), il se peut que leur génération par AutoFixture prennent **plusieurs secondes voire dizaines de seconde**. 
 
-Pour contourner ce problème, on peut : 
-- Appeler la méthode Without() sur la ou les propriétés de navigation que l'on souhaite ignorer, afin d'améliorer quelque peu les performances de génération : 
+Pour les objets complexes comportant de nombreuses propriétés de navigation, qui elles-mêmes mènent à des objets comportant des propriétés de navigation (entités Entity Framework notamment), il se peut que leur génération par AutoFixture prennent **plusieurs secondes voire dizaines de seconde**.
+
+Pour contourner ce problème, on peut :
+
+- Appeler la méthode Without() sur la ou les propriétés de navigation que l'on souhaite ignorer, afin d'améliorer quelque peu les performances de génération :
+
 ```csharp
 var listCountry = _fixture.Build<Country>()
                           .Without(c => c.Address) // Ignore le champ Address, lui même lié à PersonAddress, lié à Person, etc.
@@ -261,18 +277,18 @@ var listCountry = _fixture.Build<Country>()
 ```csharp
 var listCountry = _fixture.Build<Country>()
                           .With(c => c.Address) // Force la génération de la propriété de navigation Address, qui est virtual.
-                                                // Si Address comporte elle-même des propriétés virtual, elles seront ignorées par AutoFixture, 
+                                                // Si Address comporte elle-même des propriétés virtual, elles seront ignorées par AutoFixture,
                                                 // à moins de rajouter des With() imbriqués pour ces propriétés aussi.
                           .CreateMany(4).ToList();
 ```
 
 - Créer l'objet manuellement (à éviter).
 
-
 ## §4.2 Tests paramétrés
 
-Les données de test peuvent être définies au sein même du TU, dans la partie Arrange. Cependant, il peut être préférable de spécifier un ou plusieurs jeux de données en attribut de la méthode de test. 
+Les données de test peuvent être définies au sein même du TU, dans la partie Arrange. Cependant, il peut être préférable de spécifier un ou plusieurs jeux de données en attribut de la méthode de test.
 C'est notamment utile si plusieurs cas semblables peuvent être testés à l'aide de la même méthode de test. Par exemple ici, plusieurs valeurs peuvent être testées facilement au sein du même TU :
+
 ```csharp
 [Theory]
 [InlineData("00.01.02.03.04", "0001020304")]
@@ -305,6 +321,7 @@ Cependant, la limite de cet attribut est atteinte lorsqu'on souhaite passer autr
 Pour ce faire, xUnit propose les attributs `[MemberData]` et `[ClassData]` : le premier permet de définir la méthode ou propriété à appeler au sein de la classe de tests, le second indique la classe dédiée à utiliser pour générer les données.
 
 Exemples :
+
 - Pour l'attribut `[MemberData]`, il faut indiquer le nom de la méthode génératrice de données. Cette méthode doit être statique et locale à la classe de tests, et retourner un `IEnumerable<object[]>` :
 
 ```csharp
@@ -335,16 +352,16 @@ public class CalculatorTests
 - Pour l'attribut `[ClassData]`, il faut indiquer le type de la classe générant les données. Cette classe doit implémenter obligatoirement `IEnumerable<object[]>` :
 
 ```csharp
-public class CalculatorTests 
+public class CalculatorTests
 {
     [Theory]
     [ClassData(typeof(CalculatorTestData))]
     public void AddReturnsExpectedValueWhenArgsValid(int value1, int value2, int expected)
     {
         var calculator = new Calculator();
-    
+
         var result = calculator.Add(value1, value2);
-    
+
         Assert.Equal(expected, result);
     }
 }
@@ -361,9 +378,9 @@ public class CalculatorTestData : IEnumerable<object[]>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
-``` 
+```
 
-Source :  [https://andrewlock.net/creating-parameterised-tests-in-xunit-with-inlinedata-classdata-and-memberdata/](https://andrewlock.net/creating-parameterised-tests-in-xunit-with-inlinedata-classdata-and-memberdata/).
+Source : [https://andrewlock.net/creating-parameterised-tests-in-xunit-with-inlinedata-classdata-and-memberdata/](https://andrewlock.net/creating-parameterised-tests-in-xunit-with-inlinedata-classdata-and-memberdata/).
 
 [^retour en haut](#table-des-matières)
 
@@ -372,10 +389,10 @@ Source :  [https://andrewlock.net/creating-parameterised-tests-in-xunit-with-inl
 Selon la méthodologie du test unitaire, il faut pouvoir tester un SUT isolément de ses dépendances. Pour ce faire, il faut simuler toutes les dépendances afin de contrôler leur comportement au sein du test, et ainsi ne pas dépendre d'implémentations pouvant interférer avec, voire ralentir, le test du SUT (ceci est réservé aux tests d'intégration).
 C'est là que le [framework Moq](https://github.com/Moq/moq4/) entre en jeu. En effet, Moq permet d'instancier des mocks implémentant dynamiquement les méthodes déclarées dans l'interface du SUT à l'aide de quelques lignes de code.
 
-On voit tout de suite qu'il y a un **pré-requis** à l'utilisation de Moq : il est nécessaire que les dépendances à mocker du SUT soient des interfaces injectées par DI, sinon on ne pourra pas utiliser les mocks en lieu et place des implémentations d'origine. 
-Si ce n'est pas le cas, il faudra créer une interface pour la dépendance posant problème. S'il s'agit d'une dépendance dont on ne peut pas changer le code source (nuget, lib), il faudra l'encapsuler au sein d'un [Adaptateur](https://fr.wikipedia.org/wiki/Adaptateur_(patron_de_conception)) qui, lui, implémentera une interface en bonne et due forme.
+On voit tout de suite qu'il y a un **pré-requis** à l'utilisation de Moq : il est nécessaire que les dépendances à mocker du SUT soient des interfaces injectées par DI, sinon on ne pourra pas utiliser les mocks en lieu et place des implémentations d'origine.
+Si ce n'est pas le cas, il faudra créer une interface pour la dépendance posant problème. S'il s'agit d'une dépendance dont on ne peut pas changer le code source (nuget, lib), il faudra l'encapsuler au sein d'un [Adaptateur](<https://fr.wikipedia.org/wiki/Adaptateur_(patron_de_conception)>) qui, lui, implémentera une interface en bonne et due forme.
 
-De même, il est impossible de mocker une classe statique car une classe statique ne peut implémenter une interface. En outre, même s'il est techniquement possible d'utiliser une classe statique sans la mocker (brisant ainsi le principe d'unicité des TU), ceci pourra causer des problèmes d'accès concurrents, les TU s'exécutant en parallèle. Il faut donc à tout prix **proscrire l'utilisation de classes statiques** de type singleton dans les tests. 
+De même, il est impossible de mocker une classe statique car une classe statique ne peut implémenter une interface. En outre, même s'il est techniquement possible d'utiliser une classe statique sans la mocker (brisant ainsi le principe d'unicité des TU), ceci pourra causer des problèmes d'accès concurrents, les TU s'exécutant en parallèle. Il faut donc à tout prix **proscrire l'utilisation de classes statiques** de type singleton dans les tests.
 
 Les classes de type configuration notamment devront donc être réécrites en tant que services injectables. On pourra garder certaines méthodes et propriétés statiques, si possible privées : elles seront réservées au chargement des données lors de l'initialisation de l'application, mais ne devront pas être testées ni appelées lors des tests. Cf. par exemple le paramètre `UsePortalApi` dans la classe `Settings` de Portal_CPA.
 
@@ -384,6 +401,7 @@ Les classes de type configuration notamment devront donc être réécrites en ta
 Pour mocker une dépendance de type `IDependencyService`, il suffit de faire : `var mock = new Mock<IDependencyService>();`
 
 On peut ensuite mocker la méthode d'`IDependencyService` désirée à l'aide de Setup(), et éventuellement Returns() ou Throws() :
+
 ```csharp
 var client = _fixture.Create<Client>();
 mock.Setup(ds => ds.AddClient(client);   // accepter l'appel à AddClient() avec l'argument client
@@ -397,6 +415,7 @@ mock.Setup(ds => ds.GetClient(null))                // à chaque appel à GetCli
 ```
 
 Et en cas de méthode asynchrone :
+
 ```csharp
 var cardId = "12eaf1-456423-687ea1-fec135";
 var cardContent = _fixture.Create<CardContent>();
@@ -412,6 +431,7 @@ Pour appeler la méthode mockée, il suffit de faire appel à la dépendance moc
 `var result = await mock.Object.GetCardContentAsync(cardId);`
 
 Pour mocker une propriété :
+
 ```csharp
 mock.Setup(ds => ds.Name)               // mocke la propriété Name et renvoie systématiquement la même valeur
     .Returns("Olivier");
@@ -422,12 +442,13 @@ mock.SetupGet(ds => ds.Name)            // mocke le getter de la propriété Nam
 mock.SetupSet(ds => ds.Name = "Mehdi"); // mocke le setter de la propriété Name pour n'accepter que la valeur indiquée
 
 mock.SetupProperty(ds => ds.Name);             // bouchonne la propriété Name pour pouvoir l'utiliser ensuite
-mock.Object.Name = "Guillaume";         
+mock.Object.Name = "Guillaume";
 sut.UpdateName(contactCard, mock.Object.Name); // la valeur de la propriété bouchonnée est conservée
-contactCard.Name.ShouldBe("Guillaume"); 
+contactCard.Name.ShouldBe("Guillaume");
 ```
 
 Pour stocker (ou logger) l'argument lors d'un appel à une méthode mockée :
+
 ```csharp
 mock.Setup(ds => ds.UpdateCardContentAsync(cardContent))
     .Callback<CardContent>(cc => receivedArgument = cardContent)
@@ -435,6 +456,7 @@ mock.Setup(ds => ds.UpdateCardContentAsync(cardContent))
 ```
 
 Pour tester qu'une méthode mockée a bien été appelée (avec l'argument attendu) :
+
 ```csharp
 mock.Verify(ds => ds.UpdateCardContentAsync(cardContent)); // teste que la méthode UpdateCardContentAsync() a été appelée avec le paramètre cardContent
 mock.VerifyAll();                                          // teste que toutes les méthodes spécifiées dans le mock ont été appelées
@@ -445,12 +467,14 @@ Pour plus d'informations : [Quick start de Moq](https://github.com/Moq/moq4/wiki
 ## §5.2 Mock Loose vs Strict
 
 Plusieurs cas de figure se présentent lorsqu'on appelle une méthode du mock :
+
 - Soit la méthode a été mockée et appelée avec les arguments correspondant à ceux définis dans un des Setup() : la valeur de retour correspondante est renvoyée.
 - Soit la méthode n'a pas été mockée OU un (ou plusieurs) arguments ne correspondent à aucun de ceux spécifiés dans les Setup() de la méthode mockée : une exception est alors levée (cas du mock Strict) ou une valeur de retour par défaut est renvoyée (cas du mock Loose).
 
-Exemples : 
+Exemples :
 
 - La méthode est mockée, puis appelée avec un des arguments spécifiés dans le mock (cardId2) :
+
 ```csharp
 var cardId1 = "12eaf1-456423-687ea1-fec135";
 var cardId2 = "eae4f1-879ef3-aef458-00fec5";
@@ -465,11 +489,12 @@ mock.Setup(ds => ds.GetCardContentAsync(cardId1))
 mock.Setup(ds => ds.GetCardContentAsync(cardId2))
     .ReturnsAsync(cardContent2);
 
-var result = await mock.Object.GetCardContentAsync(cardId2); 
+var result = await mock.Object.GetCardContentAsync(cardId2);
 // OK : result == cardContent2 car c'est la valeur de retour qui a été spécifiée dans le mock lors d'un appel avec l'argument cardId2
 ```
 
 - La méthode n'est pas mockée (mock Loose) :
+
 ```csharp
 var cardId = "12eaf1-456423-687ea1-fec135";
 var cardContent = _fixture.Create<CardContent>();
@@ -477,7 +502,7 @@ var updatedCardContent = _fixture.Create<CardContent>();
 
 // Mock Loose
 var mock = new Mock<IDependencyService>(MockBehavior.Loose);
-// ou simplement : var mock = new Mock<IDependencyService>(); 
+// ou simplement : var mock = new Mock<IDependencyService>();
 
 mock.Setup(ds => ds.GetCardContentAsync(cardId))
     .ReturnsAsync(cardContent);
@@ -488,6 +513,7 @@ await mock.Object.UpdateCardContentAsync(updatedCardContent);
 ```
 
 - La méthode n'est pas mockée (mock Strict) :
+
 ```csharp
 var cardId = "12eaf1-456423-687ea1-fec135";
 var cardContent = _fixture.Create<CardContent>();
@@ -504,6 +530,7 @@ await mock.Object.UpdateCardContentAsync(updatedCardContent);
 ```
 
 - La méthode est mockée, mais appelée avec un argument différent de celui mocké (mock Loose) :
+
 ```csharp
 var cardId1 = "12eaf1-456423-687ea1-fec135";
 var cardId2 = "eae4f1-879ef3-aef458-00fec5";
@@ -512,7 +539,7 @@ var cardContent2 = _fixture.Create<CardContent>();
 
 // Mock Loose
 var mock = new Mock<IDependencyService>(MockBehavior.Loose);
-// ou simplement : var mock = new Mock<IDependencyService>(); 
+// ou simplement : var mock = new Mock<IDependencyService>();
 
 mock.Setup(ds => ds.GetCardContentAsync(cardId1))
     .ReturnsAsync(cardContent1);
@@ -525,6 +552,7 @@ var result = await mock.Object.GetCardContentAsync("wrong id");
 ```
 
 - La méthode est mockée, mais appelée avec un autre argument que prévu (mock Strict) :
+
 ```csharp
 var cardId1 = "12eaf1-456423-687ea1-fec135";
 var cardId2 = "eae4f1-879ef3-aef458-00fec5";
@@ -553,12 +581,14 @@ Pour éviter cela, on utilise donc principalement des mocks Loose, qui ne force 
 En général, on n'a pas besoin de spécifier précisément l'argument accepté par une méthode mockée. Pour définir un comportement particulier pour une classe d'arguments plus ou moins précise, on utilise le filtrage ou matching d'arguments.
 
 Par exemple, on accepte tout argument de type CardContent dans la méthode d'update :
+
 ```csharp
 mock.Setup(ds => ds.UpdateCardContentAsync(It.IsAny<CardContent>()))
     .Returns(Task.CompletedTask);
 ```
 
 On peut également gérer plusieurs cas, comme ici :
+
 ```csharp
 // filtrage par prédicat
 mock.Setup(ds => ds.UpdateCardContentAsync(Is.Is<CardContent>(cc => cc != null)))
@@ -567,7 +597,7 @@ mock.Setup(ds => ds.UpdateCardContentAsync(null))
     .Throws<ArgumentNullException>();
 
 // filtrage par intervalle numérique
-mock.Setup(ds => ds.UpdateAge(It.IsInRange(0, 130, Range.Inclusive))); 
+mock.Setup(ds => ds.UpdateAge(It.IsInRange(0, 130, Range.Inclusive)));
 
 // filtrage par regex.
 mock.Setup(ds => ds.UpdateTitle(It.IsRegex("(Mme|Mr|Dr)", RegexOptions.IgnoreCase)));
@@ -575,14 +605,15 @@ mock.Setup(ds => ds.UpdateTitle(It.IsRegex("(Mme|Mr|Dr)", RegexOptions.IgnoreCas
 
 ## §5.4 Injection de dépendances et AutoMocking
 
-Pour instancier le service à tester (SUT), le plus simple est de demander à la fixture de la classe de tests mère `SystemUnderTestBase` de le faire : 
+Pour instancier le service à tester (SUT), le plus simple est de demander à la fixture de la classe de tests mère `SystemUnderTestBase` de le faire :
 `var sut = _fixture.Create<IServiceUnderTest>;`
 
-L'implémentation correspondant à l'interface du SUT `IServiceUnderTest` ayant déjà été déclarée dans la fixture (par le constructeur de `SystemUnderTestBase`), elle peut être instanciée. 
+L'implémentation correspondant à l'interface du SUT `IServiceUnderTest` ayant déjà été déclarée dans la fixture (par le constructeur de `SystemUnderTestBase`), elle peut être instanciée.
 
 De même pour les dépendances du SUT, même si elles n'ont pas été spécifiées dans la fixture. En effet, la fonctionnalité d'AutoMocking est également configurée dans la fixture : si un SUT à instancier a des dépendances non spécifiées, elles seront automatiquement mockées avec des mocks par défaut. Il ne reste alors plus qu'à mocker les dépendances dont le comportement par défaut n'est pas suffisant pour tester le SUT dans le contexte désiré.
 
 Pour permettre l'injection d'un mock spécifique, il suffit de le déclarer comme ceci :
+
 ```csharp
 var customDependencyMock = new Mock<IDependencyService>();
 ... //
@@ -590,7 +621,7 @@ var customDependencyMock = new Mock<IDependencyService>();
 // demande l'injection de l'instance customDependencyMock.Object à chaque instanciation d'un service dépendant de IDependencyService
 _fixture.Inject(customDependencyMock.Object);
 
-var sut = _fixture.Create<IServiceUnderTest>(); 
+var sut = _fixture.Create<IServiceUnderTest>();
 // => sut._dependencyService == customDependencyMock.Object
 ```
 

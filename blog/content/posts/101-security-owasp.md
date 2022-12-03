@@ -1,8 +1,9 @@
 ---
 title: "101 Security Owasp"
 date: 2022-04-15T14:18:45+02:00
-draft: true
+draft: false
 ---
+
 ## INJECTION SQL
 
 Définition
@@ -31,26 +32,25 @@ Compromission totale ou partielle du serveur hébergeant l'application vulnérab
 
 Afin d'appréhender au mieux le concept de vulnérabilités d'injection, nous étudierons le cas des injections SQL et injections de commandes.
 
-image1.png 
+image1.png
 
 Exploitation
 Insertion du code malveillant dans l'URL ou dans le formulaire :
 
 Il est alors possible d'insérer une charge utile malveillante directement dans l'URL (méthode GET utilisée) afin de récupérer des informations contenues dans la base de données telles que le nom de l'utilisateur courant et le nom de la base de données courante:
 id = -1' union select user(),database() -- -
-http://site_vunerable.com/index.php?id=-1' union select user(),database() -- - 
+http://site_vunerable.com/index.php?id=-1' union select user(),database() -- -
 En substituant la valeur de la variable id, on obtient la requête suivante :
-$query  = "SELECT first_name, last_name FROM users WHERE user_id = '-1' union select user(),database() -- -';";
+$query = "SELECT first_name, last_name FROM users WHERE user_id = '-1' union select user(),database() -- -';";
 
-
-image 2 
+image 2
 
 Exploitation
 Il est alors possible d'insérer des commandes dans le formulaire (en POST) qui seront directement envoyées à la méthode shell_exec() puis exécutées par le système.
 
 Comme le résultat de la requête est affiché à l'écran, nous avons placé une charge malveillante afin de récupérer le nom de l'utilisateur courant ainsi que des informations relatives au noyau du système d'exploitation installé.
 
-image 3 
+image 3
 
 L'examen du code source est la meilleure méthode pour détecter si les applications sont vulnérables aux injections, suivi de près par des tests automatisés approfondis de tous les paramètres, en-têtes, URL, cookies, JSON, SOAP et données XML entrées.
 
@@ -66,7 +66,6 @@ Les injections de commandes peuvent par ailleurs être identifiées au moyen de 
 
 http://www.openvas.org/
 https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project
-
 
 Concernant les injections SQL, plusieurs solutions permettent de se protéger contre ce type d'attaque. Le premier axe de défense concerne l'emploi d'un ou plusieurs mécanismes de protection visant à désamorcer la charge utile soumise par l'attaquant:
 
@@ -93,7 +92,6 @@ Plus d'informations sur le sujet sont disponibles à cette adresse :
 
 https://www.owasp.org/index.php/OS_Command_Injection_Defense_Cheat_Sheet
 
-
 ## VIOLATION DE CONTRÔLE D’ACCÈS
 
 Définition
@@ -114,16 +112,17 @@ Voici des exemples concrets d'exploitations par un attaquant :
 - accès direct à une ressource non sécurisée (IDOR: Insecure Direct Object References).
 
 ### Insecure Direct Object References (IDOR)
+
 Définition
 Une vulnérabilité de type Insecure Direct Object References est présente dans une application quand un utilisateur peut accéder à une ressource, normalement inaccessible, en effectuant directement une requête vers celle-ci.
 Il peut ainsi passer au travers des différents mécanismes d'authentification et de vérification des permissions.
 Scénario : L'application ne vérifie pas les droits pour accéder aux informations d'un compte
 Dans ce scénario, nous utilisons le site https://example.com et les informations sur nos abonnements sont accessibles à l'adresse suite :
-https://example.com/auth/user/subscription/?account=1337 
+https://example.com/auth/user/subscription/?account=1337
 Nous pouvons identifier que la valeur du paramètre account permet d'obtenir nos informations. Généralement, dans ce type de configuration, cette valeur est attachée à notre compte et elle est incrémentée à chaque création d'un nouveau compte sur l'application.
 
 La valeur du paramètre account étant prévisible, si l'application ne vérifie pas correctement les droits d'accès à cette ressource, nous avons accès aux données d'un autre utilisateur (ici celui avec l'identifiant 42) :
-https://example.com/auth/user/subscription/?account=42 
+https://example.com/auth/user/subscription/?account=42
 
 ### Local File Disclosure (LFD)
 
@@ -132,7 +131,7 @@ Une application vulnérable à une faille de sécurité de type Local File Discl
 Un attaquant peut ainsi récupérer une ressource du serveur Web ou du système grâce à une fonctionnalité de l'application.
 Scénario : Divulgation de fichiers locaux en raison d'un manque de filtrage des paramètres utilisateurs
 Le site web https://example.com possède une fonctionnalité permettant de télécharger une ressource de l'application. Pour exécuter cette fonctionnalité, le client effectue une requête à cette adresse :
-https://example.com/auth/user/download.php?id=1 
+https://example.com/auth/user/download.php?id=1
 Le paramètre id permet d'indiquer quelle ressource doit être récupérée par le serveur, désignée par une valeur entière.
 Cependant, le paramètre souffre d'un manque de filtrage et se trouve ainsi être vulnérable à une faille de sécurité de type LFD.
 
@@ -142,9 +141,10 @@ Par exemple, il peut remplacer la valeur de l'identifiant id par un chemin relat
 https://example.com/auth/user/download.php?id=../../../../etc/passwd
 Nous obtenons ainsi le fichier système décrit sur la figure ci-dessous :
 
-image 4 
+image 4
 
 ### Élévation des privilèges
+
 Définition
 Une élévation de privilèges est réalisable lorsqu'une application ne vérifie pas que l'utilisateur possède les bonnes permissions pour charger telle ressource ou utiliser telle fonctionnalité de l'application.
 
@@ -154,7 +154,8 @@ L'application possède une interface dédiée aux administrateurs avec plusieurs
 https://example.com/auth/admin/getUsersInfo
 Un utilisateur non authentifié ou non-administrateur pouvant accéder à ces pages d'administration caractérise une vulnérabilité d'élévation de privilège. Le serveur ne vérifie pas correctement les privilèges de l'utilisateur et la session associés à la requête.
 
-### protection 
+### protection
+
 Pour se prémunir de ce type de vulnérabilité, il est recommandé de documenter les différents droits, rôles et types d'utilisateurs. À partir, de cette documentation, il est possible de créer une matrice de contrôle d'accès sur les différentes fonctions et ressources de l'application. Celle-ci va permettre de définir à l'écrit qui sont les personnes ayant accès aux différentes ressources. Elle permet ainsi d'éviter les erreurs de développement dans le contrôle des droits et configurer plus facilement des tests unitaires pour la vérification des contrôles d'accès tout le long du développement de l'application.
 
 Voici une liste des points sensibles à porter attention pour éviter la présence d'une vulnérabilité de type Broken Access Control dans une application :
@@ -169,16 +170,16 @@ De plus, l'idéal est de bloquer toutes les ressources par défaut, puis autoris
 
 Enfin, les fonctions d'administration peuvent faire l'objet de protections supplémentaires en autorisant leur accès uniquement à partir de certaines IP, d'un navigateur certifié (certificat TLS client) ou d'une connexion VPN.
 
-### référence : 
+### référence :
 
 - OWASP Broken Access Control https://owasp.org/index.php/Broken_Access_Control
 - OWASP Proactive Controls: Access Controls https://www.owasp.org/index.php/OWASP_Proactive_Controls#6:_Implement_Access_Controls
 - OWASP Application Security Verification Standard: V4 Access Control https://www.owasp.org/index.php/ - Category:OWASP_Application_Security_Verification_Standard_Project#tab.3DHome
-OWASP Testing Guide: Authorization Testing https://www.owasp.org/index.php/Testing_for_Authorization
-OWASP Cheat Sheet: Access Control https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html
-
+  OWASP Testing Guide: Authorization Testing https://www.owasp.org/index.php/Testing_for_Authorization
+  OWASP Cheat Sheet: Access Control https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html
 
 ## CROSS-SITE SCRIPTING (XSS)
+
 Définition
 Le Cross-Site Scripting (abrégé XSS) est un type de vulnérabilité de sécurité qui touche les sites Web et permet à un attaquant d'injecter du contenu dans une page, provoquant ainsi des actions sur les navigateurs Web des clients la consultant.
 
@@ -190,7 +191,8 @@ XSS stockée : L'application conserve les données d'entrée non validées et no
 
 Note: Il existe d'autres types de vulnérabilités XSS.
 
-### impact : 
+### impact :
+
 Les attaques XSS permettent de réaliser les actions suivantes :
 
 Le vol de session ;
@@ -213,19 +215,22 @@ Il est alors possible d'insérer une charge utile malveillante directement dans 
 http://sitevunerable.com/index.php?name=<script>alert('XSS')</script>
 
 Déclenchement de la vulnérabilité XSS réfléchie dans le navigateur :
-image 7 
+image 7
 
 ### XSS Stockée
-image 8 
-image 9 
+
+image 8
+image 9
 
 ### Détection
+
 Les outils automatisés peuvent détecter et exploiter toutes les formes de XSS, et il existe des frameworks disponibles gratuitement (OpenVAS, OWASP ZAP).
 
 http://www.openvas.org/
 https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project
 
 ## DÉSÉRIALISATION NON SÉCURISÉE
+
 Introduction
 Les vulnérabilités de type injection d'objet sont provoquées par la mauvaise utilisation des fonctionnalités de sérialisation au sein d'une application.
 La sérialisation de données est présente dans de nombreux langages et permet d'avoir une représentation d'un objet sous la forme d'une chaîne de caractères.
@@ -239,6 +244,7 @@ La sérialisation de données est présente dans de nombreux langages et permet 
 Ceci facilite la transmission de données dans l'application ou vers l'utilisateur.
 
 La sérialisation d'un objet en PHP est effectuée avec la fonction serialize(). Vous pouvez ainsi stocker le contenu d'une classe dans une base de données par exemple :
+
 <?php
 
 class User {
@@ -276,6 +282,7 @@ Maintenant, si nous mettons en entrée de la fonction unserialize() cette chaîn
 Il faut cependant noter que la fonction unserialize() est uniquement capable d'instancier des classes ayant déjà été définies avant son exécution.
 
 Prenons par exemple le code PHP suivant :
+
 <?php 
 
 require('logger.php'); 
@@ -285,9 +292,10 @@ $logger = new Logger();
 $user = unserialize($_GET['user']); 
 $logger->addLogEntry('User '. $user->name .' has logged in.'); 
 
-?> 
+?>
 
 Le fichier logger.php contenant la définition de la classe Logger suivante :
+
 <?php 
 
 class Logger { 
@@ -305,9 +313,9 @@ class Logger {
     } 
 } 
 
-?> 
+?>
 
-Cette classe stocke les événements journalisés dans une variable nommée $logData, puis les écrit dans un fichier $logFile au moment de la destruction de la classe grâce à la méthode magique __destruct().
+Cette classe stocke les événements journalisés dans une variable nommée $logData, puis les écrit dans un fichier $logFile au moment de la destruction de la classe grâce à la méthode magique \_\_destruct().
 
 Il est donc possible, à partir de la classe Logger, de créer un exploit très simple permettant d'enregistrer un évènement journalisé sous un autre nom et contenant un code PHP arbitraire. Pour ce faire, nous recréons une classe possédant exactement le même nom (Logger) sur notre ordinateur local et réutilisant les variables $logFile et $logData:
 
@@ -315,22 +323,23 @@ Il est donc possible, à partir de la classe Logger, de créer un exploit très 
 
 class Logger { 
     private $logFile = "exploit.php"; 
-    private $logData = "<?php phpinfo(); ?>"; 
-} 
+    private $logData = "<?php phpinfo(); ?>";
 
-print("Serialized Logger : " . serialize(new Logger) . "\n"); 
+}
 
-?> 
+print("Serialized Logger : " . serialize(new Logger) . "\n");
+
+?>
 
 Nous obtenons donc le résultat suivant :
 :6:"Logger":2:{s:15:"LoggerlogFile";s:11:"exploit.php";s:15:"LoggerlogData";s:19:"<?php phpinfo(); ?>";}
 
-Il ne nous reste plus qu'à appeler le script PHP en mettant ce résultat dans le paramètre user, pour que la fonction Logger->__destruct() exécute le code suivant :
-function __destruct() { 
-    $f = fopen("logs/" . "exploit.php", "a+"); 
-    fwrite($f, "<?php phpinfo(); ?>"); 
-    fclose($f); 
-} 
+Il ne nous reste plus qu'à appeler le script PHP en mettant ce résultat dans le paramètre user, pour que la fonction Logger->**destruct() exécute le code suivant :
+function **destruct() {
+$f = fopen("logs/" . "exploit.php", "a+"); 
+    fwrite($f, "<?php phpinfo(); ?>");
+fclose($f);
+}
 
 Il existe un outil automatisé pour exploiter une désérialisation non sécurisée. Cet outil implémente plusieurs chaînes d'exploitation selon les différents cadriciels existants : PHPGCC (https://github.com/ambionics/phpggc).
 
@@ -346,23 +355,19 @@ En environnement .NET, les formats de sérialisations sont basés sur du JSON, X
 
 Tout comme Java, il existe un outil automatisé pour exploiter une désérialisation non contrôlée : ysoSerial.net (https://github.com/pwntester/ysoserial.net).
 
-
 Il est vivement recommandé de ne pas utiliser la serialisation d'objet afin de se prémunir de ce type de vulnérabilité. En cas de nécessité absolue, vous pouvez utiliser les solutions suivantes :
 
 En PHP, préférez l'utilisation des fonctions json_encode et json_decode lors de la communication d'objet avec un utilisateur;
 
 Pour Java, en fonction de la bibliothèque utilisée, vous avez la possibilité de désactiver le traitement des entités. Nous vous conseillons de suivre le guide OWASP - XML External Entity Prevention - Java afin d'appliquer la correction adéquate.
 
-
 Implémentez un système de signature (HMAC) qui peut être couplé avec une solution de chiffrement afin d'empêcher l'altération des données par l'utilisateur.
-
 
 OWASP Cheat Sheet on deserialization: https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html
 
 Understanding the A8 risk - Unsecured deserialization: https://owasp.org/www-project-top-ten/2017/A8_2017-Insecure_Deserialization
 
 OWASP - XML External Entity Prevention : https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
-
 
 ## UTILISATION DE COMPOSANTS TIERS AVEC DES VULNÉRABILITÉS CONNUES
 
@@ -381,7 +386,6 @@ Cross-Site-Request-Forgery
 Inclusion de fichier local / distant
 Etc.
 
-
 ### Composant vulnérable
 
 Système de gestion de contenu Liferay
@@ -392,7 +396,7 @@ https://portal.liferay.dev/learn/security/known-vulnerabilities
 Plusieurs codes d'exploitation existent pour cette vulnérabilité:
 
 https://www.synacktiv.com/publications/how-to-exploit-liferay-cve-2020-7961-quick-journey-to-poc.html
-    https://github.com/mzer0one/CVE-2020-7961-POC
+https://github.com/mzer0one/CVE-2020-7961-POC
 
 Un attaquant ou même un ver informatique pourrait ainsi facilement prendre le contrôle du serveur à l'aide de scripts d'exploitation disponibles au public.
 
@@ -405,7 +409,6 @@ Pour chaque actif il convient de vérifier que ce dernier est toujours supporté
 Il faut, pour chaque éditeur, s'inscrire à sa liste de diffusion pour être averti des correctifs de sécurité.
 
 Certains outils comme OWASP Dependency-Check (https://owasp.org/www-project-dependency-check/) permettent de vérifier si les dépendances d'un projet Java contiennent des vulnérabilités connues.
-
 
 ### Protection
 
@@ -424,16 +427,16 @@ Surveiller les bibliothèques et les composants qui ne sont pas maintenus ou qui
 
 Chaque organisation doit s'assurer qu'il existe un plan continu de surveillance, d'inventaire et d'application des mises à jour ou des changements de configuration pendant toute la durée de vie de l'application.
 
+### référence
 
-### référence 
 OWASP - Using components with known vulnerabilities: https://owasp.org/www-project-top-ten/2017/A9_2017-Using_Components_with_Known_Vulnerabilities
 OWASP - Project Application Security Verification Standard: https://owasp.org/www-project-application-security-verification-standard/
 OWASP - Dependency-Check: https://owasp.org/www-project-dependency-check/
 
-
 ## BROKEN AUTHENTICATION
 
 ### Définition
+
 Une vulnérabilité de type "Broken Authentication" implique une faiblesse dans le processus d'authentification d'une application.
 
 Cette fonctionnalité est généralement le point d'entrée des clients et des administrateurs pour accéder à leurs droits.
@@ -470,7 +473,6 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra)
 Patator (https://github.com/lanjelot/patator)
 Etc...
 
-
 ### Protections
 
 Afin de protéger son application et les utilisateurs, plusieurs mécanismes peuvent être mis en place :
@@ -483,7 +485,7 @@ au moins une majuscule ;
 au moins une minuscule ;
 au moins un caractère spécial ;
 ne possède aucun lien avec l’entité protégée ;
-n'est pas présent dans les mots de passe les plus mauvais couramment utilisés ;   
+n'est pas présent dans les mots de passe les plus mauvais couramment utilisés ;  
 n'est pas un ancien mot de passe réutilisé.
 Forcer le changement régulier des mots de passe des utilisateurs et des administrateurs, environ tous les 90 jours pour les applications sensibles.
 Envoyer des messages génériques en cas d'erreur ne permettant pas d'identifier si la connexion est effectuée avec un nom d'utilisateur valide.
@@ -501,10 +503,10 @@ OWASP - A2:2017-Broken Authentication (https://owasp.org/www-project-top-ten/201
 OWASP - Authentication Cheat Sheet (https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
 auth0 - What Is Broken Authentication? (https://auth0.com/blog/what-is-broken-authentication/)
 
-
 ## SENSITIVE DATA EXPOSURE
 
 ### Définition
+
 Cette vulnérabilité indique que des données sensibles sont exposées de manière non sécurisée.
 En effet, ces dernières seraient envoyées en clairs dans le réseau ou stockées, toujours en clairs, ou chiffrées/hashées avec un algorithme faible sur le serveur sans restriction d'accès.
 Ainsi le serveur commet un manquement grave à la sécurité de ces données, d'autant plus qu'il peut s'agir de mots de passes, numéros de cartes de crédit, informations sensibles sur une société, etc.
@@ -518,8 +520,8 @@ Algorithmes de chiffrement faibles/anciens
 Algorithmes de hashage faibles/anciens
 Mauvaise gestion des accès aux données
 
-
 ### Impacts
+
 Les impacts sont critiques car ces données sont dites sensibles, comme les exemples cités plus haut.
 
 Dans un réseau local, l'attaquant pourra effectuer un man-in-the-middle entre la victime et le serveur et ainsi récupérer les identifiants et mots de passe de session.
@@ -539,10 +541,10 @@ Elles permettent de ne stocker que le condensat, jamais le mot de passe de l'uti
 Un seul doit être utilisé pour cette application, car deux utilisateurs
 ayant le même mot de passe auraient le même condensat dans la base de données.
 
-
 ## XML EXTERNAL ENTITIES
 
 ### Définition
+
 Par défaut, de nombreux parseurs XML autorisent la définition d'entités externes.
 Celles-ci se présentent sous la forme d'une URI qui sera déréférencée puis évaluée lors du traitement XML.
 
@@ -550,6 +552,7 @@ Un attaquant est en mesure d'exploiter ce type de vulnérabilité s'il est capab
 Le risque étant que l’application traite et/ou exécute l’injection malveillante.
 
 ### Impacts
+
 Une vulnérabilité XXE peut provoquer les impacts suivants :
 
 Lecture de fichiers arbitraires locaux
@@ -566,12 +569,12 @@ Nous avons ici un service SOAP permettant de récupérer les données d'un pays 
 POST /ws HTTP/1.1
 
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gs="http://example.com">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <gs:getCountryRequest> : Fonction proposée par l'API
-         <gs:name>Spain</gs:name> : Paramètre de la fonction
-      </gs:getCountryRequest>
-   </soapenv:Body>
+<soapenv:Header/>
+<soapenv:Body>
+<gs:getCountryRequest> : Fonction proposée par l'API
+<gs:name>Spain</gs:name> : Paramètre de la fonction
+</gs:getCountryRequest>
+</soapenv:Body>
 </soapenv:Envelope>
 
 Ayant accès à la requête transmise il nous est possible de la modifier afin d’injecter du code malveillant
@@ -581,56 +584,60 @@ Ayant accès à la requête transmise il nous est possible de la modifier afin d
 HTTP/1.1 200
 
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-  <SOAP-ENV:Header/>
-  <SOAP-ENV:Body>
-    <ns2:getCountryResponse xmlns:ns2="http://example.com">
-      <ns2:country>
-        <ns2:name>Spain</ns2:name>
-        <ns2:population>46704314</ns2:population>
-        <ns2:capital>Madrid</ns2:capital>
-        <ns2:currency>EUR</ns2:currency>
-      </ns2:country>
-    </ns2:getCountryResponse>
-  </SOAP-ENV:Body>
+<SOAP-ENV:Header/>
+<SOAP-ENV:Body>
+<ns2:getCountryResponse xmlns:ns2="http://example.com">
+<ns2:country>
+<ns2:name>Spain</ns2:name>
+<ns2:population>46704314</ns2:population>
+<ns2:capital>Madrid</ns2:capital>
+<ns2:currency>EUR</ns2:currency>
+</ns2:country>
+</ns2:getCountryResponse>
+</SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 
 Comme nous soumettons du XML arbitraire au serveur, nous pouvons essayer de définir une entité externe à l'aide d'un DTD (Doctype definition) :
+
 <!DOCTYPE foo [
   <!ENTITY xxe SYSTEM "file:///etc/passwd" >
+
 ]>
 Ce DTD définit une entité xxe qui sera substituée au contenu du fichier /etc/passwd à chaque endroit où elle sera mentionnée.
 
 Le fichier /etc/passwd contient pour les systèmes linux toutes les informations relatives aux utilisateurs du système (login, invite de commande, etc.).
 
 Nous pouvons donc changer notre requête SOAP comme ceci :
+
 <!DOCTYPE foo [
   <!ENTITY xxe SYSTEM "file:///etc/passwd" >
+
 ]>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gs="http://spring.io/guides/gs-producing-web-service">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <gs:getCountryRequest>
-         <gs:name>&xxe;</gs:name>
-      </gs:getCountryRequest>
-      <!-- On intègre la variable contenant le contenu du fichier dans le but que le serveur nous affiche le rendu -->
-   </soapenv:Body>
+<soapenv:Header/>
+<soapenv:Body>
+<gs:getCountryRequest>
+<gs:name>&xxe;</gs:name>
+</gs:getCountryRequest>
+<!-- On intègre la variable contenant le contenu du fichier dans le but que le serveur nous affiche le rendu -->
+</soapenv:Body>
 </soapenv:Envelope>
 Ce qui résultera en la réponse suivante de l'API :
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-  <SOAP-ENV:Header/>
-  <SOAP-ENV:Body>
-    <ns2:getCountryResponse xmlns:ns2="http://example.com">
-      <ns2:country>
-        <ns2:name>root:x:0:0:root:/root:/bin/bash
+<SOAP-ENV:Header/>
+<SOAP-ENV:Body>
+<ns2:getCountryResponse xmlns:ns2="http://example.com">
+<ns2:country>
+<ns2:name>root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
 sys:x:3:3:sys:/dev:/usr/sbin/nologin
 sync:x:4:65534:sync:/bin:/bin/sync
 [...ETC...]
 </ns2:name>
-      </ns2:country>
-    </ns2:getCountryResponse>
-  </SOAP-ENV:Body>
+</ns2:country>
+</ns2:getCountryResponse>
+</SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 On voit donc ici que le serveur a exécuté le code malveillant que nous avons intégré, nous révélant des informations que nous n’aurions pas dû obtenir normalement.
 
@@ -643,13 +650,14 @@ Pour cela, l'OWASP dispose d'une ressource exhaustive :
 XML External Entity Prevention Cheat Sheet (https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html)
 
 ### Références
+
 OWASP - XML External Entity Prevention Cheat Sheet(https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html)
 OWASP - XML External Entity (XXE) Processing (https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing)
-
 
 ## SECURITY MISCONFIGURATION
 
 ### Définition
+
 Une mauvaise configuration de sécurité est le problème de sécurité rencontré le plus courant.
 Ceci est généralement le résultat de configurations par défaut non sécurisées ou incomplètes, d'un stockage dans le cloud ouvert, d'en-têtes HTTP mal configurés et de messages d'erreur détaillés contenant des informations sensibles.
 Non seulement tous les systèmes d'exploitation, frameworks, bibliothèques et applications doivent être configurés en toute sécurité, mais ils doivent également être corrigés / mis à jour en temps opportun.
@@ -696,6 +704,7 @@ Le conteneur est lancé avec le drapeau --privileged : dans ce cas, un utilisate
 Le socket Docker est partagé dans le conteneur : Le socket Docker est un accès direct et non contrôlé à l'hôte (https://dejandayoff.com/the-danger-of-exposing-docker.sock/), et permet donc d'exécuter des commandes en tant que root sur celui-ci. Ceci est dû au fait que n'importe qui ayant accès au socket Docker peut créer et lancer des containers, et donc utiliser la technique précédente. C'est aussi pour cette raison que sur l'hôte Linux, seul l'utilisateur root et les utilisateurs membres du groupe docker peuvent accéder à ce socket par défaut.
 
 ### Protection
+
 Pour éviter ce genre de problème, administrateurs et développeurs devront suivre les guides de bonnes pratiques et être attentifs aux politiques de sécurité :
 
 Suivre ou mettre en place les informations de sécurité de l'éditeur lors d'un processus d'installation
@@ -704,7 +713,7 @@ Mettre à jour régulièrement les composants de l'application
 Structurer les applications et mettre en place des barrières d'accès entre elles
 Spécifier les directives de sécurité au navigateur client
 
-### détections 
+### détections
 
 Il existe des outils répertoriant nombre de ces défauts de configuration et permettant de les identifier :
 
@@ -721,11 +730,10 @@ Des tests plus poussés pourront être aussi effectués.
 OWASP - Security Misconfiguration (https://owasp.org/www-project-top-ten/2017/A6_2017-Security_Misconfiguration)
 OWASP Testing Guide - Configuration and Deployment Management Testing (https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management_Testing/README)
 
-
-
 ## JOURNALISATION ET MONITORING DÉFICIENT
 
 ### Définition
+
 Une politique de journalisation insuffisante des évènements survenant aux niveaux applicatifs, réseaux et systèmes permet de fournir à un attaquant plusieurs opportunités de sondage et d'exploitation des actifs sans laisser de traces.
 
 Une architecture typique de journalisation va tenter de générer, stocker, analyser et surveiller les journaux de manière sécurisée.
@@ -752,6 +760,7 @@ Les alertes sont ignorées ou les activités malicieuses ne sont pas détectées
 - Une entreprise majeure possède un antivirus analysant les pièces jointes des emails. Cet antivirus a remonté un avertissement concernant un logiciel potentiellement malicieux, ces avertissements ont continué a être produits pendant un certain temps avant que l'attaque ne soit finalement détectée, trop tard.
 
 ### Prévention
+
 - S'assurer que tous les évènements d'authentification, contrôle d'accès et validation d'entrée utilisateur générant une erreur soient journalisés avec suffisamment de contexte pour identifier les activités suspicieuses ou malicieuses. Ces journaux doivent être conservés suffisamment de temps pour que des investigations numériques restent possibles à posteriori.
 
 - Les journaux doivent être générés dans un format qui peut facilement être ingéré par les solutions de centralisation de journaux.
@@ -761,10 +770,6 @@ Les alertes sont ignorées ou les activités malicieuses ne sont pas détectées
 - Assurer la mise en place d'une solution de surveillance et d'alerte afin que les activités suspicieuses soient détectées et adressées le plus rapidement possible
 
 ### Références
+
 OWASP Insufficient Logging & Monitoring (https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%2526Monitoring)- [OWASP Implement Security Logging and Monitoring](https://owasp.org/www-project-proactive-controls/v3/en/c9-security-logging.html)
 OWASP Logging Cheat Sheet (https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
-
-
-
-
-

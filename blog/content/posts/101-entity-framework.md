@@ -16,7 +16,7 @@ draft: false
 - attention ti use lazyLoading , to use it : add reference Proxies / add optionsBuilder.useLazyLoadingProxies() / virtual in all entity ; to avoid : count() , data bind grid , no contexte in scope ?
 - \_context.ChangeTracker.DebugView.ShortView; too cool
 - use .AsNoTracking() to avoid tracking and improve performance (readonly)
-- .FromSqlInterpolated($"SomeProcStock '{SomeParameter}$'")
+- .FromSqlInterpolated($"SomeProcStock '{SomeParameter}$'") or .SqlQuery<YourEntityType>("storedProcedureName",params);
 - never use concatenation for raw SQL (sql injection)
 - to deal with views =>
   - Migration.Builder(@"Create View ClassName ...")
