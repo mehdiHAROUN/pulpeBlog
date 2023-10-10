@@ -28,3 +28,7 @@ if you are a windows user :
 - Commit the changes git add -A git commit -m "initial commit"
 - Create a blank GitHub repo (don't create a README) from <https://github.com/new>
 - git remote add origin <https://github.com/mehdyHD/blog>
+
+## Architecture N-Layer
+
+![custom domain image](/images/hugo-ss/custom-dns.jpg)
