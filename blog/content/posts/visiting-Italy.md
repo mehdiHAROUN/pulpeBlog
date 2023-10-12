@@ -1,17 +1,18 @@
 ---
 title: "Visiting Italy"
 date: 2021-08-25T16:44:22+02:00
-draft: false
+draft: true
 ---
 
-### Venise : 
+### Venise :
 
-get ticket here : 
+get ticket here :
 https://www.veneziaunica.it/fr/e-commerce/services
 
+### Florence :
 
-### Florence : 
 il faut acheter à l'avance les buillets pour le dome.
 
-### Rome : 
+### Rome :
+
 il faut réserver pour visiter le vaticans (with audio guide is better)

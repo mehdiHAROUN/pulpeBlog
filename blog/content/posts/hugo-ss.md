@@ -29,6 +29,6 @@ if you are a windows user :
 - Create a blank GitHub repo (don't create a README) from <https://github.com/new>
 - git remote add origin <https://github.com/mehdyHD/blog>
 
-## Architecture N-Layer
+## custom dns
 
 ![custom domain image](/images/hugo-ss/custom-dns.jpg)
