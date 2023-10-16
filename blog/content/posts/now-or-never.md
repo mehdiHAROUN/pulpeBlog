@@ -1,7 +1,7 @@
 ---
 title: "Now or Never"
 date: 2023-06-06T21:38:29+01:00
-draft: false
+draft: true
 ---
 
 no sql :

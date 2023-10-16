@@ -1,13 +1,11 @@
 ---
 title: "Vs22 Net6"
 date: 2021-11-11T00:39:20+01:00
-draft: false
+draft: true
 ---
 
 VS22
 try to use (Ctrl + T)
-
-
 
 https://devblogs.microsoft.com/visualstudio/visual-studio-2022-preview-4-is-now-available/?ocid=aid3021690
 https://channel9.msdn.com/Series/Beginners-Series-to-Blazor?ocid=aid3021690
@@ -38,5 +36,3 @@ https://www.fastlane.live/ww_es/e-learning/az-400-manage-source-control-msl-163.
 
 DeepRacer Student League
 https://student.deepracer.com/signIn?redirectUrl=%2Fhome
-
-

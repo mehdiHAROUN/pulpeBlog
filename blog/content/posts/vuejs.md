@@ -1,9 +1,7 @@
 ---
-title: "Vuejs"
-date: 2022-11-10T18:36:24+01:00
+title: "Cosmos Db"
+date: 2023-10-10T18:36:24+01:00
 draft: false
 ---
 
-nvm install
-nvm use 16.17.0
-npm run serve
+# Cosmos Db

@@ -1,10 +1,10 @@
 ---
 title: "Microsoft Azure Certification"
 date: 2021-12-31T12:27:47+01:00
-draft: false
+draft: true
 ---
 
-mon parcours : 
+mon parcours :
 
 AZ-900 done<br>
 AZ-204 done<br>

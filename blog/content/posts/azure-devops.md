@@ -1,7 +1,7 @@
 ---
 title: "Azure Devops"
 date: 2022-01-03T20:23:03+01:00
-draft: false
+draft: true
 ---
 
 $RessourcesGroup = 'azure-poc'
