@@ -5,3 +5,8 @@ draft: false
 ---
 
 # Cosmos Db
+
+private link , vnet , ip firewall , private endpoint
+
+
+account , databases , containers , items 

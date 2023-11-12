@@ -6,7 +6,7 @@ draft: false
 
 #### 1 - install hugo :
 
-fellow the official doc : https://gohugo.io/gethugo new posts/my-first-post.mdting-started/installing/
+fellow the official doc : https://gohugo.io/getting-started/quick-start/ new posts/my-first-post.mdting-started/installing/
 if you are a windows user :
 
 - downlad the last relase (hugo_XXX_Windows-32bit.zip) from <https://github.com/gohugoio/hugo/releases>
@@ -23,6 +23,8 @@ if you are a windows user :
 - make all modification that you want. For
 
 #### 3 - push application to github :
+
+- add content : hugo new posts/my-first-post.md
 
 - change directory to blog and init git project : git init
 - Commit the changes git add -A git commit -m "initial commit"
